@@ -7,7 +7,7 @@ regAuthor = re.compile('<p style="text-align: right;"( align="right")?>.*?([ёА
 author = regAuthor.search(html)
 if author:
     author_ = author.group(2)
-    author = re.sub('\.$', '', author_)
+    author = re.sub('\.$', '', author_)#заменить на strip
     print(author)
 else:
     regauthor = re.compile('<p align="right">.*?([ёА-Яа-я. ]+)</strong>', flags=re.U | re.DOTALL)
