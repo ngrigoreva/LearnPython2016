@@ -1,5 +1,3 @@
-
-
 ftable = open('metaCSV', 'w')
 #...
 lst = os.listdir(...)
