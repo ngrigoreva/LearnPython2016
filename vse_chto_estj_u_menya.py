@@ -1,6 +1,27 @@
-#html = open ('хытымыэль на проверку.txt', 'r', encoding = 'utf-8').read()
+
+import os
 import urllib.request
 import re
+i=1
+
+def dir_handle(month, year)
+os.makedirs(year + os.sep + month + os.sep + i, 'w', encoding = 'utf-8')
+ftable = open('C:\\газета\\metaCSV', 'w')
+
+for fl in lst:
+    f = open(fl)
+    html = f.read()
+    year = get_year(html)#наша функция
+    #month =
+    #...
+    dir_handle(year, month)#наша ф-ция, которая создает файлы и папки для файлов
+    fw = open(C:\\газета + os.sep + year + os.sep + month + os.sep + fl, 'w', encoding = 'utf-8')
+    fw.write(article)#записываем в файл текст статьи (предполагается, что все остальные
+    #необходимые данные записали уже ранее открытые функции типа month, year etc.)
+    fw.close()
+    ftable.write(year + '/' + month + '/' + i)
+       
+      
 
 def get_author(html):
    #author <p style="text-align: right;" align="right">
