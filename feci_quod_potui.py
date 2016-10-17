@@ -9,7 +9,7 @@ def get_author(html):
    author = regAuthor.search(html)
    if author:
        author_ = author.group(2)
-       author = re.sub('\.$', '', author_)
+       author = re.sub('\.$', '', author_)#не работает
         #author = author_.strip('.') - strip тоже не работает
         return(author)
   else:
@@ -25,15 +25,17 @@ def get_header(html):
     regHeader = re.compile('<title>(.+) / газета За урожай, Смоленск, п. Шумячи</title>', flags=re.U | re.DOTALL)
     header = regHeader.search(html).group(1)
     return(header)
-    #print(header)
-    
+        
 def get_created(html):
     regDate = re.compile('<span class="date">([0-9/-])</span>', flags=re.U | re.DOTALL)
     date = regDate.search(html).group(1)
     date = re.sub(r'-', '.', date)
     return(date)
     
-#def get_topic(html):
+def get_topic(html):
+    regRubr = re.compile('<a href='?module=articles&action=list&amp;rubrics=[0-9][0-9]&id=0' class='link_name'>([а-яёА-Я])', flags=re.U | re.DOTALL)
+    rubr = regRubr.search(html).group(1)
+    return(rubr)
 
 #def get_article(html):
     #<a href=".*">(.*) там невозможно разобраться в оформлении :/
