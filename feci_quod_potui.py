@@ -1,28 +1,8 @@
-
 import os
 import urllib.request
 import re
-i=1
-
-def dir_handle(month, year)
-os.makedirs(year + os.sep + month + os.sep + i, 'w', encoding = 'utf-8')
-ftable = open('C:\\газета\\metaCSV', 'w')
-
-for fl in lst:
-    f = open(fl)
-    html = f.read()
-    year = get_year(html)#наша функция
-    #month =
-    #...
-    dir_handle(year, month)#наша ф-ция, которая создает файлы и папки для файлов
-    fw = open(C:\\газета + os.sep + year + os.sep + month + os.sep + fl, 'w', encoding = 'utf-8')
-    fw.write(article)#записываем в файл текст статьи (предполагается, что все остальные
-    #необходимые данные записали уже ранее открытые функции типа month, year etc.)
-    fw.close()
-    ftable.write(year + '/' + month + '/' + i)
-       
-      
-
+x=1
+   
 def get_author(html):
    #author <p style="text-align: right;" align="right">
    regAuthor = re.compile('<p style="text-align: right;"( align="right")?>.*?([ёА-Яа-я. ]+)</strong>', flags=re.U | re.DOTALL)
@@ -58,6 +38,22 @@ def get_created(html):
 #def get_article(html):
     #<a href=".*">(.*) там невозможно разобраться в оформлении :/
     
+
+def dir_handle(month, year):
+    os.makedirs('C:' + os.sep + 'газета' + year + os.sep + month + os.sep + x, 'r', encoding = 'utf-8')
+    ftable = open('C:\\газета\\metaCSV', 'r')
+
+    f = open(fl)
+    html = f.read()
+    year = get_year(html)#наша функция
+    #month =
+    #...
+    dir_handle(year, month)#наша ф-ция, которая создает файлы и папки для файлов
+    #fw = open(C:\\газета + os.sep + year + os.sep + month + os.sep + fl, 'w', encoding = 'utf-8')
+    fw.write(article)#записываем в файл текст статьи (предполагается, что все остальные
+    #необходимые данные записали уже ранее открытые функции типа month, year etc.)
+    fw.close()
+    ftable.write(year + '/' + month + '/' + x)
     
 def download_page(pageUrl):
     try:
@@ -70,6 +66,7 @@ def download_page(pageUrl):
     auth = get_author(html)
     head = get_header(html)
     date = get_created(html)
+    
 commonUrl = 'http://www.urogay-smol.ru/?module=articles&action=view&id='
 for i in range(135, 736):
     pageUrl = commonUrl + str(i)
