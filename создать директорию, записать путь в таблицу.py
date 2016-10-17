@@ -3,8 +3,8 @@ ftable = open('metaCSV', 'w')
 lst = os.listdir(...)
 for fl in lst:
     f = open(fl)
-    html = f.road()???
-    year = get_year(htmal)#наша функция
+    html = f.read()
+    year = get_year(html)#наша функция
     #month =
     #...
     dir_handle(year, month)#наша ф-ция, которая создает файлы и папки для файлов
@@ -14,6 +14,6 @@ for fl in lst:
     fw.write(article)#записываем в файл текст статьи (предполагается, что все остальные
     #необходимые данные записали уже ранее открытые функции типа month, year etc.)
     fw.close()
-    ftable.write(year + '/' + month + '/' fl)#снова обрщаемся к значениям, сохраненным в наших переменных
+    ftable.write(year + '/' + month + '/' fl)#снова обращаемся к значениям, сохраненным в наших переменных
     
     
