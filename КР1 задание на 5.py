@@ -1,7 +1,9 @@
 import os
 import re
+import json
 
 files = os.listdir(path='C:\\Users\\student\\Desktop\\папка\\thai_pages')
+fwrite = open('fwrite.txt', 'a')
 #print(files)
 def get_thaiWords(line):
        #thai-eng_word: <tr><td class=th><a href='/id/148333'>-------ปัตตะเลี่ยน--------</a>
@@ -11,19 +13,21 @@ def get_thaiWords(line):
     wordsThai = regWordsThai.search(line)
     if wordsThai:
         thai = wordsThai.group(1)
-        print(thai)
-        return(thai)
+        f.write(thai + '\n')
+        #print(thai)
+
 
 #'</a></td><td>[a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+
-#</span> [a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+</span> [a-z]+<span class=
+#</span> [a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+</span>[a-z]+<span class=
 #\'[a-z]+\'>[a-zA-Z]+</span>[a-z<span class+\'[a-z]+\'>[a-zA-Z]+</span></td><td class=[a-z]+>[a-z]+</td><td>(.*)</td></tr>'
 def get_engWords(line):
-    regWordsEng = re.compile('</a></td><td>[a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+</span> [a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+</span>[a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+</span>[a-z<span class+\'[a-z]+\'>[a-zA-Z]+</span></td><td class=[a-z]+>[a-z]+</td><td>(.*)</td></tr>', flags=re.U | re.DOTALL)
+    regWordsEng = re.compile('</span></td><td class=[a-z]+>[a-z]+</td><td>(.*?)</td></tr>', flags=re.U | re.DOTALL)
     wordsEng = regWordsEng.search(line)
     if wordsEng:
         eng = wordsEng.group(1)
-        print(eng)
-        return(eng)
+        f.write(eng + '\n')
+        #print(eng)
+
 
 os.chdir(path='C:\\Users\\student\\Desktop\\папка\\thai_pages')
 for fl in files:
@@ -32,5 +36,12 @@ for fl in files:
     for line in f:
         get_thaiWords(line)
         get_engWords(line)
-        cooldict[thai] = eng
-    #print(cooldict)
+        f.close()
+
+handle = fwrite.open.read()
+word = ('(.*?)/n').findall(handle).group(1)
+n=0
+for x in word:
+    cooldict[word[1+n]] = word[0+n]
+    n = n+2
+close(fwrite)
