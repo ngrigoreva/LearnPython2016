@@ -13,7 +13,7 @@ def get_thaiWords(line):
     wordsThai = regWordsThai.search(line)
     if wordsThai:
         thai = wordsThai.group(1)
-        f.write(thai + '\n')
+        fwrite.write(thai + '\n')
         #print(thai)
 
 
@@ -25,18 +25,19 @@ def get_engWords(line):
     wordsEng = regWordsEng.search(line)
     if wordsEng:
         eng = wordsEng.group(1)
-        f.write(eng + '\n')
+        fwrite.write(eng + '\n')
         #print(eng)
 
 
 os.chdir(path='C:\\Users\\student\\Desktop\\папка\\thai_pages')
 cooldict = {}
 for fl in files:
-    f = open(fl, encoding = 'UTF-8')    
+    f = open(fl, encoding = 'UTF-8')
+
     for line in f:
         get_thaiWords(line)
         get_engWords(line)
-        f.close()
+    f.close()
 
 handle = fwrite.open.read()
 word = ('(.*?)/n').findall(handle).group(1)
