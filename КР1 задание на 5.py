@@ -12,7 +12,7 @@ def get_thaiWords(line):
     if wordsThai:
         thai = wordsThai.group(1)
         print(thai)
-    #return(thai)
+        return(thai)
 
 #'</a></td><td>[a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+
 #</span> [a-z]+<span class=\'[a-z]+\'>[a-zA-Z]+</span> [a-z]+<span class=
@@ -23,7 +23,7 @@ def get_engWords(line):
     if wordsEng:
         eng = wordsEng.group(1)
         print(eng)
-    #return(eng)
+        return(eng)
 
 os.chdir(path='C:\\Users\\student\\Desktop\\папка\\thai_pages')
 for fl in files:
@@ -32,5 +32,5 @@ for fl in files:
     for line in f:
         get_thaiWords(line)
         get_engWords(line)
-        #cooldict[thai] = eng
+        cooldict[thai] = eng
     #print(cooldict)
