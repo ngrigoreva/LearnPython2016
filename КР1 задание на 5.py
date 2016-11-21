@@ -30,9 +30,9 @@ def get_engWords(line):
 
 
 os.chdir(path='C:\\Users\\student\\Desktop\\папка\\thai_pages')
+cooldict = {}
 for fl in files:
-    f = open(fl, encoding = 'UTF-8')
-    cooldict = {}
+    f = open(fl, encoding = 'UTF-8')    
     for line in f:
         get_thaiWords(line)
         get_engWords(line)
