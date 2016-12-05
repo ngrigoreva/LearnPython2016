@@ -1,0 +1,14 @@
+import urllib.request
+links = ['http://tass.ru/proisshestviya/3839508', 'https://ria.ru/incidents/20161204/1482803303.html', 'http://www.ugrapro.ru/2016/12/04/gubernator-yugryi-natalya-komarova-pribyila-na-mesto-dtp-gde-pogiblo-9-detey/', 'http://www.interfax.ru/russia/539814', 'http://sputnik-ossetia.ru/world/20161204/3402314.html']
+def download_page(links):
+    for l in links:
+        try:
+            page = urllib.request.urlopen(pageUrl)
+            text = page.read().decode('UTF-8')
+        except:
+            print('Error at', pageUrl)
+            return
+        words = text.split()
+        for w in words:
+            w = w.strip(' ,.?!/"')
+        
