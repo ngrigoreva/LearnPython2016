@@ -1,6 +1,6 @@
 import os
 
-def mystem:
+def mystem():
     os.system(r'C:\\Users\\ADMIN\\mystem.exe -ncid' + 'input.txt' + ' ' + 'output.txt')
 
 def Tables():
@@ -11,12 +11,20 @@ def Tables():
     MystemFile = open('output.txt', 'r', encoding = 'utf-8')
     lines = MystemFile.readlines()
     sqlarr1 = []
+    uniqueDict = {}
     for line in lines:
         regex = re.search('([а-яА-Яё]+?){([а-яА-Яё]+?)}, line)
         wordform = regex.group(1).lower()
         lemma = regex.group(2)
-        #написать строчку, исключающую повторы пар "словоформа-демма"
-        sql1 = 'INSERT INTO table1 (id, wordform, lemma) VALUES (0, %s, %s)' % (wordform, lemma)
+        if wordform, lemma in uniqueDict:
+            continue
+        else:
+            uniqueDict[wordform] = lemma
+        #uniqueDict = dict(zip(wordform, lemma)).lemma()
+        #for key, value in uniqueDict:
+            #wordform = dict.keys(uniqueDict)
+            #lemma = dict.get(key[, default]) не работает
+        sql1 = 'INSERT INTO table1 (id, wordform, lemma) VALUES (0, %s, %s)' % (wordform, uniqueDict[wordform])
         sqlarr1.append(sql2)
     table1 = 'CREATE TABLE table2 (id INTEGER PRIMARY KEY, wordform VARCHAR, lemma VARCHAR' + str(sqlarr1)
     sqlarr2 = []
@@ -38,14 +46,11 @@ def Tables():
     f1.write(table2 + '\n' + table1)
     f1.close()
     f.close()
-    
-    return 
+
 
 
 def main():
-    #sth
-
+    mystem()
+    Tables()
 
 main()
-
-
