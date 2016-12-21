@@ -5,20 +5,41 @@ def mystem:
 
 def Tables():
     f = open('input.txt', 'r', encoding='utf-8')
+    f1 = open('output1.sql', 'w', encoding = 'utf-8')
     words = f.read().split()#массив, разделенный по проебелам
     i = 0#позиция слова в тексте
-    MystemFile = open('output.txt', 'r', encoding='utf-8')
-
-    sql1 = 'INSERT INTO table1 (id, wordform, lmark, rmark, position, id2) VALUES (0, %s, %d, %d, %d, )' % (strippedWord, lmark, rmark, i)
-    #дописать ссылку на айди2; найти все значения в ссылках
-    f1 = open('output1.sql', 'w', encoding='utf-8')
-    line = 'CREATE TABLE table1 (id INTEGER PRIMARY KEY, wordform VARCHAR, lmakr , rmark , position INTEGER PRIMARY KEY, id2 INTEGER PRIMARY KEY' + join(sql1)
-    f1.write(line)
-
-    f2 = open('output2.sql', 'w', encoding = 'utf-8')
+    MystemFile = open('output.txt', 'r', encoding = 'utf-8')
+    lines = MystemFile.readlines()
+    sqlarr1 = []
+    for line in lines:
+        regex = re.search('([а-яА-Яё]+?){([а-яА-Яё]+?)}, line)
+        wordform = regex.group(1).lower()
+        lemma = regex.group(2)
+        #написать строчку, исключающую повторы пар "словоформа-демма"
+        sql1 = 'INSERT INTO table1 (id, wordform, lemma) VALUES (0, %s, %s)' % (wordform, lemma)
+        sqlarr1.append(sql2)
+    table1 = 'CREATE TABLE table2 (id INTEGER PRIMARY KEY, wordform VARCHAR, lemma VARCHAR' + str(sqlarr1)
+    sqlarr2 = []
+    for word in words:
+            lmark = 0
+            rmark = 0
+            strippedWord = word.strip(' .,?!^:;\"—()[]{}')
+            #if word != strippedWord and strippedWord:
+            if word[0] != strippedWord[0]:
+                lmark = 1
+            if word[-1] != strippedWord[-1]:
+                rmark = 1                
+                i += 1
+                sql2 = 'INSERT INTO table1 (id, wordform, lmark, rmark, position, id2) VALUES (0, %s, %d, %d, %d, )' % (strippedWord, lmark, rmark, i)
+                sqlarr2.append(sql2)
+                #дописать ссылку на айди2; найти все значения в ссылках
+                
+            table2 = 'CREATE TABLE table2 (id INTEGER PRIMARY KEY, wordform VARCHAR, lmakr INTEGER PRIMARY KEY, rmark INTEGER PRIMARY KEY, position INTEGER PRIMARY KEY, id2 INTEGER PRIMARY KEY' + str(sqlarr2)
+    f1.write(table2 + '\n' + table1)
+    f1.close()
+    f.close()
     
-    
-return 
+    return 
 
 
 def main():
