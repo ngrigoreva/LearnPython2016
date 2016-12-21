@@ -26,7 +26,7 @@ def Tables():
             #lemma = dict.get(key[, default]) не работает
         sql1 = 'INSERT INTO table1 (id, wordform, lemma) VALUES (0, %s, %s)' % (wordform, uniqueDict[wordform])
         sqlarr1.append(sql2)
-    table1 = 'CREATE TABLE table2 (id INTEGER PRIMARY KEY, wordform VARCHAR, lemma VARCHAR' + str(sqlarr1)
+    table1 = 'CREATE TABLE table1 (id INTEGER PRIMARY KEY, wordform VARCHAR, lemma VARCHAR' + str(sqlarr1)
     sqlarr2 = []
     for word in words:
             lmark = 0
@@ -40,9 +40,8 @@ def Tables():
                 i += 1
                 sql2 = 'INSERT INTO table1 (id, wordform, lmark, rmark, position, id2) VALUES (0, %s, %d, %d, %d, )' % (strippedWord, lmark, rmark, i)
                 sqlarr2.append(sql2)
-                #дописать ссылку на айди2; найти все значения в ссылках
-                
-            table2 = 'CREATE TABLE table2 (id INTEGER PRIMARY KEY, wordform VARCHAR, lmakr INTEGER PRIMARY KEY, rmark INTEGER PRIMARY KEY, position INTEGER PRIMARY KEY, id2 INTEGER PRIMARY KEY' + str(sqlarr2)
+            selectLine2 = 'SELECT table1.id from table1 WHERE table2.id = table1.id'
+            table2 = 'CREATE TABLE table2 (id INTEGER PRIMARY KEY, wordform VARCHAR, lmakr INTEGER PRIMARY KEY, rmark INTEGER PRIMARY KEY, position INTEGER PRIMARY KEY, id2 INTEGER PRIMARY KEY' + '\n' + str(sqlarr2) + '\n' + selectLine2
     f1.write(table2 + '\n' + table1)
     f1.close()
     f.close()
