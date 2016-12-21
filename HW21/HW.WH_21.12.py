@@ -14,10 +14,10 @@ def Tables():
     sqlarr1 = []
     uniqueDict = {}
     for line in lines:
-        regex = re.search('([а-яА-Яё]+?){([а-яА-Яё]+?)}, line)
+        regex = re.search('([а-яА-Яё]+?){([а-яА-Яё]+?)}', line)
         wordform = regex.group(1).lower()
         lemma = regex.group(2)
-        if wordform, lemma in uniqueDict:
+        if (wordform and lemma) in uniqueDict:
             continue
         else:
             uniqueDict[wordform] = lemma
