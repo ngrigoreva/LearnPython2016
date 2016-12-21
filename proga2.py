@@ -22,11 +22,7 @@ return
 
 
 def main():
-    wordforms = getWordforms()
-    with open('wordforms.txt', 'w', encoding='utf-8') as f:
-        line = ' '.join(wordforms)
-        f.write(line)
-    useMystem('wordforms.txt')
+    #sth
 
 
 main()
