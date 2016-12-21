@@ -1,4 +1,5 @@
 import os
+import re
 
 def mystem():
     os.system(r'C:\\Users\\ADMIN\\mystem.exe -ncid' + 'input.txt' + ' ' + 'output.txt')
