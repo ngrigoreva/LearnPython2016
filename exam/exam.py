@@ -21,7 +21,7 @@ def five():
         for word in word1:
             all_russian_words.append(word)
 
-    print(all_russian_words)
+    #print(all_russian_words)
 
     words_s = []
     for word in all_russian_words:
