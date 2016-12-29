@@ -9,8 +9,7 @@ def five():
         html = response.read().decode('utf-8')
     #regex_title = re.compile('<h1 class="b-topic__title">«(.*?)»</h1><h2 class="b-topic__rightcol">(.*?)</h2>', flags=re.U | re.DOTALL)
     # первая группа - заголовок, вторая - подзаголовок
-    regex_russian_words = re.compile('.*?[>&{(«" ]([а-яА-Яё ]+?)[ <:;,.!?})%»"].*?', flags=re.U | re.DOTALL)
-    # сюда нужно еще включить дефис - , который нужно найти, как экранировать
+    regex_russian_words = re.compile('.*?[>&{(«" ]\b([а-яА-Яё ]+?[-]?[а-яА-Яё ]*?)[ \s<:;,.!?})%»"].*?', flags=re.U | re.DOTALL)
     russian_words = re.findall(regex_russian_words, html) 
     #html.parser.HTMLParser().unescape(russian_text) # замена специальных символов
 
@@ -38,12 +37,33 @@ def eight(words_s):
     for word in words_s:
         file_s.write(word + ' \n')
     os.system('C:\\Users\\student\\Desktop\\exam\\mystem.exe -nid file_s.txt output_s.txt')
-    parsed_s = open('output_s.txt', 'r', encoding='utf-8').read()
-    regex_verbs = re.compile(r'(.*?){.*?=S,.*?}', flags=re.U | re.DOTALL)
+    MystemFile = open('output_s.txt', 'r', encoding='utf-8')
+    parsed_s = MystemFile.read()
+    regex_verbs = re.compile(r'(.*?){.*?=V,.*?}', flags=re.U | re.DOTALL)
     verbs = re.findall(regex_verbs, parsed_s)
     for verb in verbs:
         print(verb)
-    file_s.close()    
+    fl = open('insert_file.txt', 'w')
+    lines = MystemFile.readlines()
+    sqlarr1 = []
+    uniqueDict = {}
+    for line in lines:
+        regex = re.search('([а-яА-Яё]+?){([а-яА-Яё]+?)=([A-Z])}', line)
+        wordform = regex.group(1).lower()
+        lemma = regex.group(2)
+        part_of_speech = regex.group(3)
+        if (wordform and lemma) in uniqueDict:
+            continue
+        else:
+            uniqueDict[wordform] = lemma
+        sql1 = 'INSERT INTO table1 (id, wordform, lemma, part_of_speech) VALUES (0, %s, %s, %s)' % (wordform, uniqueDict[wordform], part_of_speech)
+        sqlarr1.append(sql1)
+    table1 = 'CREATE TABLE table1 (id INTEGER PRIMARY KEY, wordform VARCHAR, lemma VARCHAR, part_of_speech VARCHAR' + str(sqlarr1)
+    fl.write(table1)
+    fl.close()
+    file_s.close()
+
+
 def main():
     words_s = five()
     ten = eight(words_s)
