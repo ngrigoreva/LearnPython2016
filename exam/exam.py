@@ -9,7 +9,7 @@ def five():
         html = response.read().decode('utf-8')
     #regex_title = re.compile('<h1 class="b-topic__title">«(.*?)»</h1><h2 class="b-topic__rightcol">(.*?)</h2>', flags=re.U | re.DOTALL)
     # первая группа - заголовок, вторая - подзаголовок
-    regex_russian_words = re.compile('.*?[>&{(«" ]\b([а-яА-Яё ]+?[-]?[а-яА-Яё ]*?)[ \s<:;,.!?})%»"].*?', flags=re.U | re.DOTALL)
+    regex_russian_words = re.compile('.*?[>&{(«":;, \s.!?})%]([а-яА-Яё]+?[-]?[а-яА-Яё]*?)[ \s&<:;,.!?})%»"].*?', flags=re.U | re.DOTALL)
     russian_words = re.findall(regex_russian_words, html) 
     #html.parser.HTMLParser().unescape(russian_text) # замена специальных символов
 
@@ -21,7 +21,7 @@ def five():
         for word in word1:
             all_russian_words.append(word)
 
-    print(len(all_russian_words))
+    print(all_russian_words)
 
     words_s = []
     for word in all_russian_words:
@@ -58,7 +58,7 @@ def eight(words_s):
             uniqueDict[wordform] = lemma
         sql1 = 'INSERT INTO table1 (id, wordform, lemma, part_of_speech) VALUES (0, %s, %s, %s)' % (wordform, uniqueDict[wordform], part_of_speech)
         sqlarr1.append(sql1)
-    table1 = 'CREATE TABLE table1 (id INTEGER PRIMARY KEY, wordform VARCHAR, lemma VARCHAR, part_of_speech VARCHAR' + str(sqlarr1)
+    table1 = 'CREATE TABLE table1 (id INTEGER PRIMARY KEY, wordform VARCHAR, lemma VARCHAR, part_of_speech VARCHAR)' + str(sqlarr1)
     fl.write(table1)
     fl.close()
     file_s.close()
