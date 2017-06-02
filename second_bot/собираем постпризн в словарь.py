@@ -3,7 +3,6 @@ import json
 import re
 import pymorphy2
 
-# создаем список словоформ, содержащихся в  файле, скачанном с сайта НКРЯ
 def pymrlist_lemma_():
     text = (open('поговори с достоевским.txt', 'r', encoding = 'utf-8')).read()
     pymrlist_lemma = []
@@ -20,14 +19,13 @@ def pymrlist_lemma_():
             pymrlist_lemma.append(z.word)
     return pymrlist_lemma
 
-# собираем посотоянные признаки и слова с ними в словарь {неизменяемые признаки: [список слов, имеющих эти признаки]}
 def pymrlist_postprizn(pymrlist_lemma):
     from pymorphy2 import MorphAnalyzer
     morph = MorphAnalyzer()
     dictionary = {}
     for lemma in pymrlist_lemma:
         ana = morph.parse(lemma)
-        tags = str(ana[0].tag).split(' ')[0] # постоянные признаки
+        tags = str(ana[0].tag).split(' ')[0] 
         if tags in dictionary:
             dictionary[tags].append(lemma)
         else:
