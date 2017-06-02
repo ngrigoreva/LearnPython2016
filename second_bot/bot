@@ -23,7 +23,7 @@ app = flask.Flask(__name__)
 # этот обработчик запускает функцию send_welcome, когда пользователь отправляет команды /start или /help
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.send_message(message.chat.id, "Здравствуйте!Это бот, который позволит вам поговорить с Ф.М. Достоевским. Просто напишите сообщение, и писатель сам вам ответит. Учтите, что Фёдор Михайлович -- большой шутник и любит передразнивать других.")
+    bot.send_message(message.chat.id, "Здравствуйте! Это бот, который позволит вам поговорить с Ф.М. Достоевским. Просто напишите сообщение, и писатель сам вам ответит. Учтите, что Фёдор Михайлович -- большой шутник и любит передразнивать других.")
 
 def send_answer(text):
     with open('/home/nadegrigoreva1/mysite/dictionary.json') as f:
@@ -44,6 +44,7 @@ def send_answer(text):
     return reply
 
 @bot.message_handler(func=lambda m: True)  # этот обработчик реагирует все прочие сообщения
+def send_it(message):
     bot.send_message(message.chat.id, send_answer(message.text))
 
 # пустая главная страничка для проверки
