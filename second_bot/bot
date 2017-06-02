@@ -25,10 +25,10 @@ app = flask.Flask(__name__)
 def send_welcome(message):
     bot.send_message(message.chat.id, "Здравствуйте! Это бот, который позволит вам поговорить с Ф.М. Достоевским. Просто напишите сообщение, и писатель сам вам ответит. Учтите, что Фёдор Михайлович -- большой шутник и любит передразнивать других.")
 
-def send_answer(text):
-    with open('/home/nadegrigoreva1/mysite/dictionary.json') as f:
-        dictionary = json.load(f)
-    reply = re.findall(r"[А-Яа-яё-]+|[.,!?;:-]", text)
+def send_answer(mess):
+    with open('/home/nadegrigoreva1/mysite/dictionary.json') as file:
+        dictionary = json.load(file)
+    reply = re.findall(r"[А-Яа-яё]+|[.,!?;:-]", mess)
     for index, word in enumerate(reply):
         if word not in '—.,!?;:':
             ana = morph.parse(word)
