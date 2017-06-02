@@ -1,27 +1,64 @@
+# -*- coding: utf-8 -*-
+import flask
+import json
+import telebot
+import conf
+import random
+from pymorphy2 import MorphAnalyzer
 import re
-message = 'мама мыла раму'
-import pymorphy2
 
-def send_answer(message):
-    text = (open('text.txt', 'r', encoding = 'utf-8')).read()
-    pymrlist = []
-    from pymorphy2 import MorphAnalyzer
-    morph = MorphAnalyzer()
-    mass = text.split()
-    for x in mass:
-        x.strip(',«.»')
-        x.strip(',«.»')
-    for x in mass:
-        ana = morph.parse(x)
-        #print(ana)
-        for z in ana:
-            pymrlist.append(z.normal_form) #cобрать массив постоянных признаков слова, чтобы потом из них выбирать нужное для инфлекта wordDost 
-    f = set(pymrlist)
-    for word in message:
-        word = morph.parse(word)[0]
-        wordDost = morph.parse()
-    return f
+WEBHOOK_URL_BASE = "https://{}:{}".format(conf.WEBHOOK_HOST, conf.WEBHOOK_PORT)
+WEBHOOK_URL_PATH = "/{}/".format(conf.TOKEN)
 
-send_answer(message)
-print (f)
- # регвыр для слова, на которое заменять '.*<DictionaryAnalyzer>, '[а-яА-Яё]', .*'
+bot = telebot.TeleBot(conf.TOKEN, threaded=False)  # бесплатный аккаунт pythonanywhere запрещает работу с несколькими тредами
+
+# удаляем предыдущие вебхуки, если они были
+bot.remove_webhook()
+
+# ставим новый вебхук = Слышь, если кто мне напишет, стукни сюда — url
+bot.set_webhook(url=WEBHOOK_URL_BASE+WEBHOOK_URL_PATH)
+
+app = flask.Flask(__name__)
+
+# этот обработчик запускает функцию send_welcome, когда пользователь отправляет команды /start или /help
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.send_message(message.chat.id, "Здравствуйте!Это бот, который позволит вам поговорить с Ф.М. Достоевским. Просто напишите сообщение, и писатель сам вам ответит. Учтите, что Фёдор Михайлович -- большой шутник и любит передразнивать других.")
+
+def send_answer(text):
+    with open('/home/nadegrigoreva1/mysite/dictionary.json') as f:
+        dictionary = json.load(f)
+    reply = re.findall(r"[А-Яа-яё-]+|[.,!?;:-]", text)
+    for index, word in enumerate(reply):
+        if word not in '—.,!?;:':
+            ana = morph.parse(word)
+            tags = str(ana[0].tag).split(' ')
+            fixed = tags[0]
+            if (fixed in dictionary) and (fixed not in ['PREP', 'CONJ', 'PRCL']): #предлоги и местоимения не меняем
+                if len(tags) != 1:
+                    temp = set(tags[1].split(','))
+                    diff_word = random.choice(dictionary[fixed])
+                    diff_ana = morph.parse(diff_word)[0]
+                    diff_word = diff_ana.inflect(temp)
+    reply = re.sub(r' (?=\W)', ' '.join(reply))
+    return reply
+
+@bot.message_handler(func=lambda m: True)  # этот обработчик реагирует все прочие сообщения
+    bot.send_message(message.chat.id, send_answer(message.text))
+
+# пустая главная страничка для проверки
+@app.route('/', methods=['GET', 'HEAD'])
+def index():
+    return 'ok'
+
+
+# обрабатываем вызовы вебхука = функция, которая запускается, когда к нам постучался телеграм
+@app.route(WEBHOOK_URL_PATH, methods=['POST'])
+def webhook():
+    if flask.request.headers.get('content-type') == 'application/json':
+        json_string = flask.request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return ''
+    else:
+        flask.abort(403)
