@@ -1,0 +1,27 @@
+import re
+message = 'мама мыла раму'
+import pymorphy2
+
+def send_answer(message):
+    text = (open('text.txt', 'r', encoding = 'utf-8')).read()
+    pymrlist = []
+    from pymorphy2 import MorphAnalyzer
+    morph = MorphAnalyzer()
+    mass = text.split()
+    for x in mass:
+        x.strip(',«.»')
+        x.strip(',«.»')
+    for x in mass:
+        ana = morph.parse(x)
+        #print(ana)
+        for z in ana:
+            pymrlist.append(z.normal_form) #cобрать массив постоянных признаков слова, чтобы потом из них выбирать нужное для инфлекта wordDost 
+    f = set(pymrlist)
+    for word in message:
+        word = morph.parse(word)[0]
+        wordDost = morph.parse()
+    return f
+
+send_answer(message)
+print (f)
+ # регвыр для слова, на которое заменять '.*<DictionaryAnalyzer>, '[а-яА-Яё]', .*'
